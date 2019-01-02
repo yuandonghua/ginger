@@ -4,14 +4,15 @@
 # @Email   : 1348474384@qq.com
 # @File    : base.py
 # @Software: PyCharm
+from flask import request
 from wtforms import Form
 
 from app.libs.error_code import ParameterException
 
 
 class BaseForm(Form):
-    def __init__(self, data):
-        super(BaseForm, self).__init__(data=data)
+    def __init__(self):
+        super(BaseForm, self).__init__(data=request.json)
 
     def validate_for_api(self):
         valid = super(BaseForm, self).validate()

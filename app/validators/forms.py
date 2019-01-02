@@ -8,7 +8,7 @@ from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired, length, Email, Regexp, ValidationError
 
 from app.libs.enums import ClientTypeEnum
-from app.libs.error_code import ClientTypeError
+from app.libs.error_code import ClientTypeError, Success, Fail
 from app.models.user import User
 
 from app.validators.base import BaseForm as Form
@@ -42,4 +42,4 @@ class UserEmailForm(ClientForm):
         :return:
         '''
         if User.query.filter_by(email=value.data).first():
-            raise ValidationError()
+            raise Fail('邮箱已存在！')

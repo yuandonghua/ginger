@@ -12,7 +12,7 @@ from werkzeug.exceptions import HTTPException
 class APIException(HTTPException):
     code = 500
     msg = '服务器内部错误'
-    error_code = 999
+    error_code = 500
 
     def __init__(self, msg=None, code=None, error_code=None, headers=None):
         if msg:
