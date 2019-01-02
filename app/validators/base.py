@@ -13,10 +13,8 @@ class BaseForm(Form):
     def __init__(self, data):
         super(BaseForm, self).__init__(data=data)
 
-    def validate(self):
-        pass
-
     def validate_for_api(self):
         valid = super(BaseForm, self).validate()
         if not valid:
             raise ParameterException(msg=self.errors)
+        return self
