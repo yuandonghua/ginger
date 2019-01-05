@@ -4,7 +4,17 @@
 # @Email   : 1348474384@qq.com
 # @File    : app.py
 # @Software: PyCharm
-from flask import Flask
+from flask import Flask as _Flask
+from flask.json import JSONEncoder as _JSONEncoder
+
+
+class JSONEncoder(_JSONEncoder):
+    def default(self, o):
+        pass
+
+
+class Flask(_Flask):
+    json_encoder = JSONEncoder
 
 
 def create_app():

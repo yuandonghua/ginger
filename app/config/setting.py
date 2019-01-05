@@ -4,3 +4,4 @@
 # @Email   : 1348474384@qq.com
 # @File    : setting.py
 # @Software: PyCharm
+TOKEN_EXPIRATION = 30 * 24 * 3600

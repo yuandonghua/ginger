@@ -8,20 +8,29 @@ from werkzeug.exceptions import HTTPException
 
 from app.libs.error import APIException
 
+
+class AuthFailed(APIException):
+    code = 401
+    msg = '授权失败'
+    error_code = 401
+
+
+class NotFound(APIException):
+    code = 404
+    msg = '没有找到数据'
+    error_code = 404
+
+
 class ServerError(APIException):
     code = 500
     msg = '服务器内部错误'
     error_code = 500
 
+
 class Fail(APIException):
     code = 400
     msg = '操作失败'
     error_code = 1001
-
-    def __init__(self, msg=None):
-        if msg:
-            self.msg = msg
-        super(Fail, self).__init__()
 
 
 class Success(APIException):
