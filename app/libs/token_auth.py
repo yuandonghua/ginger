@@ -37,5 +37,5 @@ def verify_auth_token(token):
         raise AuthFailed(msg='token过期', error_code=1003)
     uid = data['uid']
     type = data['type']
-
-    return User(uid, type, None)
+    is_admin = data['is_admin']
+    return User(uid, type, is_admin)

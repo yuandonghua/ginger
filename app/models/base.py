@@ -88,6 +88,9 @@ class Base(db.Model):
             self.fields.append(key)
         return self
 
+    def __getitem__(self, item):
+        return getattr(self, item)
+
 
 class MixinJSONSerializer:
     @orm.reconstructor

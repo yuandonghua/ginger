@@ -9,6 +9,12 @@ from werkzeug.exceptions import HTTPException
 from app.libs.error import APIException
 
 
+class DeleteSuccess(APIException):
+    code = 202
+    msg = '操作成功'
+    error_code = 204
+
+
 class AuthFailed(APIException):
     code = 401
     msg = '授权失败'

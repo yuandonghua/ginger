@@ -12,6 +12,7 @@ from app.libs.redprint import Redprint
 from app.models.user import User
 from app.validators.forms import ClientForm
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 api = Redprint('token')
 
 
@@ -24,24 +25,21 @@ def get_token():
     #
     identify = promise[ClientTypeEnum(form.type.data)](form.account.data, form.password.data)
     expiration = current_app.config['TOKEN_EXPIRATION']
-    token = generate_auth_token(identify['uid'], form.type.data, None, expiration)
+    token = generate_auth_token(identify['uid'], form.type.data, identify['is_admin'], expiration)
     t = {
         'token': token.decode('ascii')
     }
-    return jsonify(t),201
+    return jsonify(t), 201
 
 
-def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
+def generate_auth_token(uid, ac_type, is_admin=None, expiration=7200):
     '''
     生成令牌
     :param uid:
     :param ac_type:
-    :param scope:
+    :param is_admin:
     :param expiration:
     :return:
     '''
     s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-    return s.dumps({'uid': uid, 'type': ac_type.value})
-
-
-
+    return s.dumps({'uid': uid, 'type': ac_type.value, 'is_admin': is_admin})

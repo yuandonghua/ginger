@@ -41,9 +41,13 @@ class User(Base):
         user = User.query.filter_by(email=email).first_or_404()
         if not user.check_password(password):
             raise AuthFailed()
-        return {'uid': user.id}
+        is_admin = True if user.auth == 2 else False
+        return {'uid': user.id, 'is_admin': is_admin}
 
     def check_password(self, password):
         if not self._password:
             return False
         return check_password_hash(self._password, password)
+
+    def keys(self):
+        return ['id', 'email', 'nickname', 'auth']
