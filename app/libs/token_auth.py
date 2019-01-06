@@ -6,11 +6,12 @@
 # @Software: PyCharm
 from collections import namedtuple
 
-from flask import current_app, g
+from flask import current_app, g, request
 from flask_httpauth import HTTPBasicAuth
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
 
-from app.libs.error_code import AuthFailed
+from app.libs.error_code import AuthFailed, Forbidden
+from app.libs.scope import is_in_scope
 
 auth = HTTPBasicAuth()
 
@@ -37,5 +38,8 @@ def verify_auth_token(token):
         raise AuthFailed(msg='token过期', error_code=1003)
     uid = data['uid']
     type = data['type']
-    is_admin = data['is_admin']
-    return User(uid, type, is_admin)
+    scope = data['scope']
+    allow = is_in_scope(scope, request.endpoint)
+    if not allow:
+        raise Forbidden()
+    return User(uid, type, scope)

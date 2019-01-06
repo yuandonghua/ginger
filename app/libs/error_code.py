@@ -9,6 +9,12 @@ from werkzeug.exceptions import HTTPException
 from app.libs.error import APIException
 
 
+class Forbidden(APIException):
+    code = 403
+    msg = '无访问权限'
+    error_code = 1004
+
+
 class DeleteSuccess(APIException):
     code = 202
     msg = '操作成功'
